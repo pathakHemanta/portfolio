@@ -3,24 +3,37 @@ import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 
 function Component() {
-  const [myElementIsVisible, setMyElementIsVisible] = useState();
-  console.log("myElementIsVisible", myElementIsVisible);
+  const [myAboutElementIsVisible, setAboutElementIsVisible] = useState();
+  const [myExperienceElementIsVisible, setExperienceElementIsVisible] =
+    useState();
+  const [myProjectElementIsVisible, setProjectElementIsVisible] = useState();
 
   const aboutRef = useRef(null);
-  const expRef = useRef(null);
-  const projRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      console.log("entries", entries);
-      setMyElementIsVisible(entry.isIntersecting);
-      console.log("entry", entry);
-    });
-    observer.observe(aboutRef.current);
-    console.log(aboutRef);
-    console.log(expRef);
-    console.log(projRef);
+    const about = document.getElementById("about");
+    const experience = document.getElementById("experience1");
+    const project = document.getElementById("project");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target.id === "about") {
+            setAboutElementIsVisible(entry.isIntersecting);
+          }
+          if (entry.target.id === "experience1") {
+            setExperienceElementIsVisible(entry.isIntersecting);
+          }
+          if (entry.target.id === "project") {
+            setProjectElementIsVisible(entry.isIntersecting);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(about);
+    observer.observe(experience);
+    observer.observe(project);
   }, []);
 
   return (
@@ -28,22 +41,25 @@ function Component() {
       <div className="lg:flex lg:justify-between lg:gap-10 max-w-[1200px] mx-auto py-6">
         <div className="flex flex-col lg:max-w-[300px] lg:h-[90svh]">
           <Hero />
-          <div className="lg:flex lg:flex-col invisible lg:visible mt-16">
+          <div
+            id="hello"
+            className="lg:flex lg:flex-col invisible lg:visible mt-16"
+          >
             <a
               href="#about"
-              className={myElementIsVisible ? "texth1" : "texth"}
+              className={myAboutElementIsVisible ? "texth1" : "texth"}
             >
               <span>About</span>
             </a>
             <a
               href="#experience"
-              className="transition hover:-translate-y-1 pt-3 font-bold  uppercase"
+              className={myExperienceElementIsVisible ? "texth1" : "texth"}
             >
               Experience
             </a>
             <a
               href="#project"
-              className="transition hover:-translate-y-1 pt-3 font-bold uppercase"
+              className={myProjectElementIsVisible ? "texth1" : "texth"}
             >
               Projects
             </a>

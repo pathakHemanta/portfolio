@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState, forwardRef } from "react";
 
 export const About = forwardRef((props, ref) => {
   return (
-    <div>
-      <div>
+    <div ref={ref}>
+      <div id="about">
         <h1 id="about" className="section-headers">
           About Me
         </h1>
@@ -17,7 +17,7 @@ export const About = forwardRef((props, ref) => {
           performance and meeting objectives on time and on budget.
         </p>
       </div>
-      <div ref={ref}>
+      <div id="experience1">
         <h1 id="experience" className="section-headers">
           Experience
         </h1>
